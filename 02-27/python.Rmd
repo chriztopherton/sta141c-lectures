@@ -28,10 +28,10 @@ py_discover_config()
 Try to locate a python 3 binary.
 
 ```{r, eval = FALSE}
-# I am picking the python 
+# I am picking up this python 
 use_python("~/miniconda3/bin/python", required = TRUE)
 # or if you are using a conda env
-use_condaenv("myenv", conda = "~/miniconda3/bin/conda", required = TRUE)
+# use_condaenv("myenv", conda = "~/miniconda3/bin/conda", required = TRUE)
 ```
 
 Check again your python setup
@@ -84,10 +84,13 @@ builtins$len(a)
 
 ```{r}
 source_python("script.py", envir = NULL)
+py$z
 ```
 
 ```{r}
+# I personally don't recommand it
 source_python("script.py")
+z
 ```
 
 
@@ -139,8 +142,9 @@ py_to_r(sum)
 R Objects are converted to Python objects when they are passed to Python functions.
 
 ```{python}
+import sys
 def abssum(x):
-    print("received a {} object".format(type(x)))
+    print("received a {} object\n".format(type(x)))
     return sum((abs(z) for z in x))
 ```
 
