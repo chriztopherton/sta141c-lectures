@@ -31,6 +31,10 @@
 | 02-20 | [random forest](02-20/random_forest.Rmd) | [html](https://ucdavis-sta-141c-winter-2020.github.io/sta141c-lectures/02-20/random_forest.html) | [pdf](02-20/tree.pdf) |
 |  | random forest slides |  | [pdf](02-20/old_slides.pdf) |
 |        | R packages | [link](https://r-pkgs.org/) | |
+| 02-25 | [bigquery](02-25/bigquery.Rmd) | [html](https://ucdavis-sta-141c-winter-2020.github.io/sta141c-lectures/02-25/bigquery.html) | [pdf](02-25/bigquery.pdf) |
+| 02-27 | [python](02-27/python.Rmd) | [html](https://ucdavis-sta-141c-winter-2020.github.io/sta141c-lectures/02-27/python.html) | [pdf](02-27/python.pdf) |
+| 03-03 | [tensorflow](03-03/tensorflow.Rmd) | [html](https://ucdavis-sta-141c-winter-2020.github.io/sta141c-lectures/03-03/tensorflow.html) | [pdf](03-03/tensorflow.pdf) |
+
 
 ## Site
 
