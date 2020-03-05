@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - Neural networks (NNs) were introduced in 1980s
 - inspired by the architecture of the human brain
      
-```{r echo=FALSE, out.width='80%'}
+```{r echo=FALSE, out.width='80%', eval = TRUE}
 knitr::include_graphics("fig18_1.png")
 ```
 
@@ -54,13 +54,10 @@ reincarnation now being called **deep learning**.
 
 ## Handwritten Digit Problem
 
-```{r echo=FALSE, out.width='70%'}
+```{r echo=FALSE, out.width='70%', eval = TRUE}
 knitr::include_graphics("fig18_2.png")
 ```
 
-```{r echo=FALSE, out.width='70%'}
-knitr::include_graphics("fig18_3.png")
-```
 
 
 ## Algorithms
@@ -77,26 +74,9 @@ knitr::include_graphics("fig18_3.png")
 ## Choice of Nonlinearities
 There are a number of activation functions $g^{(k)}$
 
-```{r echo=FALSE, out.width='70%'}
+```{r echo=FALSE, out.width='70%', eval = TRUE}
 knitr::include_graphics("fig18_6.png")
 ```
-
-
-
-## Autoencoder (unsupervised training)
-
-- An autoencoder is a special neural network for computing a type of nonlinear principal-component decompositin
-
-
-```{r echo=FALSE, out.width='50%'}
-knitr::include_graphics("fig18_7.png")
-```
-
-
-```{r echo=FALSE, out.width='70%'}
-knitr::include_graphics("reconstructions.png")
-```
-
 
 
 ## Convolutional NN
@@ -105,12 +85,12 @@ It is a special layer for handling images. CNNs consist of two special types of 
 
 The "convolve" layer applies a bunch of filters to the images.
 
-```{r echo=FALSE, out.width='70%'}
+```{r echo=FALSE, out.width='70%', eval = TRUE}
 knitr::include_graphics("convolve.png")
 ```
 
 The "pool" layer is used to reduce the (filtered) image pixel sizes.
-```{r echo=FALSE, out.width='70%'}
+```{r echo=FALSE, out.width='70%', eval = TRUE}
 knitr::include_graphics("pool.png")
 ```
 
@@ -124,7 +104,7 @@ Dropout is a technique used to avoid overfitting on neural networks.
 
 - The idea is to randomly set a node to zero with probability $\phi$
 
-```{r echo=FALSE, out.width='70%'}
+```{r echo=FALSE, out.width='70%', eval = TRUE}
 knitr::include_graphics("dropout.png")
 ```
 
@@ -133,61 +113,54 @@ knitr::include_graphics("dropout.png")
 
 We can learn the basics of Keras by walking through a simple example: recognizing handwritten digits from the MNIST dataset. MNIST consists of 60000 28 x 28 grayscale images of handwritten digits like these:
 
-```{r}
+```{r, eval = TRUE}
 library(reticulate)
 library(tidyverse)
 library(keras)
 
-use_condaenv("r-tensorflow")
+use_condaenv("r-tensorflow", required = TRUE)
 mnist <- dataset_mnist()
 ```
 
-```{r}
+```{r, eval = TRUE}
 # a helper function to visiual the images
 plot_mnist <- function(data, idx){
-  image(t(apply(data$x[idx, ,], 2, rev)), col=gray((0:255)/255), main = data$y[idx])
+  image(t(apply(data$x[idx, ,], 2, rev)), col=gray((0:255)/255), main = data$y[idx], axes = FALSE)
 }
 ```
 
-```{r, fig.width = 2, fig.height = 2}
+```{r, fig.width = 2, fig.height = 2, eval = TRUE}
 par(mfrow = c(5, 5), mar = c(0, 0, 0, 0))
 for (i in 1:25) plot_mnist(mnist$train, i)
 ```
 
-
-
-```{r, eval = FALSE}
+```{r}
+# The data, shuffled and split between train and test sets
 x_train <- mnist$train$x
 y_train <- mnist$train$y
 x_test <- mnist$test$x
 y_test <- mnist$test$y
-# reshape
-x_train <- array_reshape(x_train, c(nrow(x_train), 784))
-x_test <- array_reshape(x_test, c(nrow(x_test), 784))
-# rescale
-x_train <- x_train / 255
-x_test <- x_test / 255
-```
 
-```{r, eval = FALSE}
 y_train <- to_categorical(y_train, 10)
 y_test <- to_categorical(y_test, 10)
 ```
 
-```{r, eval = FALSE}
-model <- keras_model_sequential() 
-model %>% 
-  layer_dense(units = 256, activation = 'relu', input_shape = c(784)) %>% 
+
+```{r}
+mnist_model <- keras_model_sequential() %>% 
+  layer_flatten(input_shape = c(28, 28)) %>%
+  layer_lambda(function(x) x / 256) %>% 
+  layer_dense(units = 256, activation = 'relu') %>% 
   layer_dropout(rate = 0.4) %>% 
   layer_dense(units = 128, activation = 'relu') %>%
   layer_dropout(rate = 0.3) %>%
   layer_dense(units = 10, activation = 'softmax')
-summary(model)
+summary(mnist_model)
 ```
 
 
-```{r, eval = FALSE}
-model %>% compile(
+```{r}
+mnist_model %>% compile(
   loss = 'categorical_crossentropy',
   optimizer = optimizer_adam(),
   metrics = c('accuracy')
@@ -196,26 +169,76 @@ model %>% compile(
 
 See https://en.wikipedia.org/wiki/Stochastic_gradient_descent for some descriptions of the optimizers.
 
-```{r, eval = FALSE}
-history <- model %>% fit(
-  x_train, y_train, 
-  epochs = 30, batch_size = 128, 
+```{r}
+history <- mnist_model %>% fit(
+  x_train, 
+  y_train,
+  epochs = 5, # for testing
+  batch_size = 128,
   validation_split = 0.2
 )
 ```
 
-```{r, eval = FALSE}
-pred <- model %>% predict_classes(x_test)
-pred
-```
-
-```{r, eval = FALSE}
+```{r}
+pred <- mnist_model %>% predict_classes(x_test)
 wrong_idx <- which(pred != mnist$test$y)
 ```
 
-```{r, eval = FALSE, fig.width = 2, fig.height = 2}
-plot_mnist(mnist$test, sample(wrong_idx, 1))
+```{r, fig.width = 2, fig.height = 2}
+par(mfrow = c(5, 5), mar = c(0, 0, 0, 0))
+for (i in seq_along(wrong_idx)) plot_mnist(mnist$test, wrong_idx[i])
+```
+
+
+Let's swap the first layout to some convolutional layers
+
+
+```{r}
+mnist_cnn <- keras_model_sequential() %>%
+  layer_reshape(target_shape = c(28, 28, 1), input_shape = c(28, 28)) %>% 
+  layer_lambda(function(x) x / 256) %>% 
+  layer_conv_2d(filters = 32, kernel_size = c(3,3), activation = 'relu') %>% 
+  layer_conv_2d(filters = 16, kernel_size = c(3,3), activation = 'relu') %>% 
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>% 
+  layer_dropout(rate = 0.25) %>% 
+  layer_flatten() %>% 
+  layer_dense(units = 64, activation = 'relu') %>% 
+  layer_dropout(rate = 0.5) %>% 
+  layer_dense(units = 10, activation = 'softmax')
+summary(mnist_cnn)
+```
+
+```{r}
+# Compile model
+mnist_cnn %>% compile(
+  loss = loss_categorical_crossentropy,
+  optimizer = optimizer_adadelta(),
+  metrics = c('accuracy')
+)
+```
+
+```{r}
+# Train model
+mnist_cnn %>% fit(
+  x_train, y_train,
+  batch_size = 128,
+  epochs = 2,  # for testing
+  validation_split = 0.2
+)
+```
+
+
+```{r}
+pred <- mnist_cnn %>% predict_classes(x_test/ 1.0)
+wrong_idx <- which(pred != mnist$test$y)
+```
+
+
+```{r, fig.width = 2, fig.height = 2}
+par(mfrow = c(5, 5), mar = c(0, 0, 0, 0))
+for (i in seq_along(wrong_idx)) plot_mnist(mnist$test, wrong_idx[i])
 ```
 
 
 See https://keras.rstudio.com/articles/getting_started.html for more examples
+
