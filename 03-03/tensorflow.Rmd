@@ -17,7 +17,7 @@ plot(x, x^2, type = "l")
 lines(x, (x-0.5) + 0.5^2, type = "l", lty = 2)
 ```
 
-Suppose the current estimate of the minimizer is 0.5, a gradient descent algorithm assert that the minimum is in the opposite direction of the slope. Our next estimate would be 
+Suppose the current estimate of the minimizer is 0.5, a gradient descent algorithm asserts that the minimum is in the opposite direction of the slope. Our next estimate would be 
 $$
 0.5 - slope * learning rate
 $$
@@ -127,7 +127,7 @@ graph <- cg_graph()
 
 x <- cg_input("x")
 
-z <-x[1]^2 +x[1] * x[2]
+z <- x[1]^2 +x[1] * x[2]
 y <- z^2
 ```
 
@@ -189,6 +189,7 @@ with(tf$GradientTape() %as% t, {
 })
 
 (dy_dx <- t$gradient(y, x))
+dy_dx$numpy()
 ```
 
 
@@ -199,7 +200,7 @@ A general purpose numerical computing library.
 - Originally developed by researchers and enginners working on the Google Brain Team for the purposes of conducting machine learning and deep nerual networks research.
 - Open source
 - Hardware independnt
- - CPU, GPU or TPU (Tensor processing unit)
+- CPU, GPU or TPU (Tensor processing unit)
 - Support automatic differentiation
 - Distributed execution
 
@@ -220,7 +221,7 @@ Examples
 | Data        | Tensor                                                 |
 | -----       | ---                                                    |
 | Vector data | 2D tensors of shape (samples, features)                |
-| Image data  | 4D tensors of shope (samples, height, width, channels) |
+| Image data  | 4D tensors of shape (samples, height, width, channels) |
 
 
 Note that `samples` is always the first dimension.
