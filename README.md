@@ -35,7 +35,7 @@
 | 02-27 | [python](02-27/python.Rmd) | [html](https://ucdavis-sta-141c-winter-2020.github.io/sta141c-lectures/02-27/python.html) | [pdf](02-27/python.pdf) |
 | 03-03 | [tensorflow](03-03/tensorflow.Rmd) | [html](https://ucdavis-sta-141c-winter-2020.github.io/sta141c-lectures/03-03/tensorflow.html) | [pdf](03-03/tensorflow.pdf) |
 |  | [deep learning](03-03/deep.Rmd) | [html](https://ucdavis-sta-141c-winter-2020.github.io/sta141c-lectures/03-03/deep.html) | [pdf](03-03/deep.pdf) |
-| 03-05 | [julia](03-03/julia.ipynb) |  | |
+| 03-05 | [julia](03-05/julia.ipynb) |  | |
 
 
 ## Site
