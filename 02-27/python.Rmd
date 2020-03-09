@@ -29,9 +29,9 @@ Try to locate a python 3 binary.
 
 ```{r, eval = FALSE}
 # I am picking up this python 
-use_python("~/miniconda3/bin/python", required = TRUE)
+use_python("/Users/Randy/miniconda3/bin/python", required = TRUE)
 # or if you are using a conda env
-# use_condaenv("myenv", conda = "~/miniconda3/bin/conda", required = TRUE)
+# use_condaenv("myenv", conda = "/Users/Randy/miniconda3/bin/conda", required = TRUE)
 ```
 
 Check again your python setup

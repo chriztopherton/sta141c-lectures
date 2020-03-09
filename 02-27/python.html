@@ -1677,9 +1677,9 @@ summary {
 ##  /Users/Randy/miniconda3/envs/r-tensorflow/bin/python</code></pre>
 <p>Try to locate a python 3 binary.</p>
 <pre class="r"><code># I am picking up this python 
-use_python(&quot;~/miniconda3/bin/python&quot;, required = TRUE)
+use_python(&quot;/Users/Randy/miniconda3/bin/python&quot;, required = TRUE)
 # or if you are using a conda env
-# use_condaenv(&quot;myenv&quot;, conda = &quot;~/miniconda3/bin/conda&quot;, required = TRUE)</code></pre>
+# use_condaenv(&quot;myenv&quot;, conda = &quot;/Users/Randy/miniconda3/bin/conda&quot;, required = TRUE)</code></pre>
 <p>Check again your python setup</p>
 <pre class="r"><code>py_config()</code></pre>
 <pre><code>## python:         /usr/bin/python
@@ -1705,7 +1705,7 @@ use_python(&quot;~/miniconda3/bin/python&quot;, required = TRUE)
 x = random.random()</code></pre>
 <pre class="r"><code># to access Python objects in R
 py$x</code></pre>
-<pre><code>## [1] 0.6342375</code></pre>
+<pre><code>## [1] 0.3900568</code></pre>
 <ul>
 <li>Importing Python module</li>
 </ul>
@@ -1714,7 +1714,7 @@ py$x</code></pre>
 y &lt;- random$random()</code></pre>
 <pre class="python"><code># to access R object in python
 r.y</code></pre>
-<pre><code>## 0.9214186558904102</code></pre>
+<pre><code>## 0.006251803287711799</code></pre>
 <p>The <code>import_builtins()</code> function enables to access the <a href="https://docs.python.org/3/library/functions.html#built-in-funcs">built in functions</a>.</p>
 <pre class="r"><code>builtins &lt;- import_builtins()
 a &lt;- builtins$range(5L)
@@ -1727,11 +1727,11 @@ builtins$len(a)</code></pre>
 </ul>
 <pre class="r"><code>source_python(&quot;script.py&quot;, envir = NULL)
 py$z</code></pre>
-<pre><code>## [1] 0.477535</code></pre>
+<pre><code>## [1] 0.2660025</code></pre>
 <pre class="r"><code># I personally don&#39;t recommand it
 source_python(&quot;script.py&quot;)
 z</code></pre>
-<pre><code>## [1] 0.7644011</code></pre>
+<pre><code>## [1] 0.4916311</code></pre>
 <ul>
 <li>Python REPL: <code>repl_python()</code></li>
 </ul>
@@ -1742,13 +1742,13 @@ z</code></pre>
 <p>By default when Python objects are returned to R they are converted to their equivalent R types.</p>
 <pre class="r"><code>random &lt;- import(&quot;random&quot;)
 (x &lt;- random$random())</code></pre>
-<pre><code>## [1] 0.6239018</code></pre>
+<pre><code>## [1] 0.3616261</code></pre>
 <pre class="r"><code>class(x)</code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 <p>However, if you’d rather make conversion from Python to R explicit and deal in native Python objects by default you can pass convert = FALSE to the import function</p>
 <pre class="r"><code>random &lt;- import(&quot;random&quot;, convert = FALSE)
 (x &lt;- random$random())</code></pre>
-<pre><code>## 0.807293027894</code></pre>
+<pre><code>## 0.51452118245</code></pre>
 <pre class="r"><code>class(x)</code></pre>
 <pre><code>## [1] &quot;python.builtin.float&quot;  &quot;python.builtin.object&quot;</code></pre>
 <p>We cannot work with native Python objects directly.</p>
@@ -1757,7 +1757,7 @@ z</code></pre>
 <p>The function <code>py_to_r</code> converts native Python objects to R objects.</p>
 <pre class="r"><code># convert x to R object first
 py_to_r(x) + 1</code></pre>
-<pre><code>## [1] 1.807293</code></pre>
+<pre><code>## [1] 1.514521</code></pre>
 <p>Let’s check another numpy example.</p>
 <pre class="r"><code>np &lt;- import(&quot;numpy&quot;, convert = FALSE)
 
@@ -1776,7 +1776,7 @@ def abssum(x):
 <pre class="r"><code>x &lt;- rnorm(10)
 # x is implicitly to a native Python list
 py$abssum(x)</code></pre>
-<pre><code>## [1] 5.552512</code></pre>
+<pre><code>## [1] 6.854396</code></pre>
 </div>
 
 
